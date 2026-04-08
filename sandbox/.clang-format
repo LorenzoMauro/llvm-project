@@ -1,0 +1,147 @@
+# -----------------------------------------------------------------------------
+# Base style / global constraints
+# -----------------------------------------------------------------------------
+BasedOnStyle: Microsoft
+ColumnLimit: 100
+MaxEmptyLinesToKeep: 3 # clamp runs of blank lines
+ReflowComments: IndentOnly # don't wrap/reflow comment text; only fix indentation
+InsertBraces: true # add braces to all control statements
+SortIncludes: false
+
+# -----------------------------------------------------------------------------
+# Pointer / reference alignment
+# -----------------------------------------------------------------------------
+PointerAlignment: Middle # `int * p` / `int* p` / `int *p` style control
+ReferenceAlignment: Pointer # align `&` like `*` according to PointerAlignment
+
+# -----------------------------------------------------------------------------
+# Alignment (vertical) rules
+# -----------------------------------------------------------------------------
+AlignAfterOpenBracket: true # align wrapped params/args after '(' / '[' when breaking lines
+AlignOperands: Align # align operands when breaking around operators
+AlignEscapedNewlines: LeftWithLastLine # backslash-newline continuations align with last line
+AlignArrayOfStructures: Right # align AoS columns (struct member-like alignment in arrays)
+
+AlignTrailingComments: # align end-of-line comments into neat columns
+    Kind: Always
+    OverEmptyLines: 2 # allow alignment to span up to N blank lines
+
+AlignConsecutiveAssignments: # align consecutive `=` blocks (helps tables/struct init blocks)
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: false
+    PadOperators: true # pads around operators when aligning
+
+AlignConsecutiveDeclarations: # align consecutive declarations (types/names) in blocks
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: true
+    AlignCompound: true # align pointers/references/qualifiers as a unit
+    AlignFunctionDeclarations: false
+
+AlignConsecutiveBitFields: # align consecutive bitfield declarations
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: true
+
+AlignConsecutiveMacros: # align `#define` bodies in macro blocks
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: true
+
+AlignConsecutiveShortCaseStatements: # align short `case` statements for switch readability
+    Enabled: true
+    AcrossEmptyLines: false
+    AcrossComments: true
+    AlignCaseArrows: true # align `->` when present
+    AlignCaseColons: true # align `case X:` colons
+
+# -----------------------------------------------------------------------------
+# One-liners / short constructs
+# -----------------------------------------------------------------------------
+AllowAllArgumentsOnNextLine: false # avoid moving all call args to next line as a group
+AllowAllParametersOfDeclarationOnNextLine: false # same, but for declarations
+
+AllowShortFunctionsOnASingleLine: Inline # allow `inline` functions on one line when short
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse # allow `if/else` one-liners (including else)
+
+AllowShortCaseExpressionOnASingleLine: true # allow `case X: expr;` as one-liner when short
+AllowShortCaseLabelsOnASingleLine: true # allow short `case X:` labels on one line
+
+# -----------------------------------------------------------------------------
+# Argument / parameter layout (wrapping strategy)
+# -----------------------------------------------------------------------------
+BinPackArguments: false # don't pack multiple call args on one line after breaking
+BinPackParameters: AlwaysOnePerLine # one parameter per line in declarations
+
+BreakFunctionDefinitionParameters: true # force breaks for function definition parameter lists
+
+BreakAfterOpenBracketFunction: true # prefer breaking right after '(' in function calls/decls
+BreakBeforeCloseBracketFunction: false # don't force a break before ')' (keep closing paren tight)
+
+BreakAfterOpenBracketBracedList: true # prefer breaking after '{' in braced init lists
+
+# -----------------------------------------------------------------------------
+# Braces / blocks
+# -----------------------------------------------------------------------------
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterCaseLabel: true
+    AfterClass: true
+    AfterControlStatement: Always
+    AfterEnum: true
+    AfterFunction: true
+    AfterNamespace: true
+    AfterStruct: true
+    AfterUnion: true
+    AfterExternBlock: true
+    BeforeCatch: true
+    BeforeElse: true
+    BeforeLambdaBody: true
+    BeforeWhile: true
+    IndentBraces: false
+    SplitEmptyFunction: false
+    SplitEmptyRecord: false
+    SplitEmptyNamespace: false
+
+# -----------------------------------------------------------------------------
+# Constructor initializer formatting
+# -----------------------------------------------------------------------------
+PackConstructorInitializers: Never # don't pack initializers onto same line
+BreakConstructorInitializers: AfterColon # break after ':' in ctor init lists
+
+# -----------------------------------------------------------------------------
+# Operator / expression breaking
+# -----------------------------------------------------------------------------
+BreakBeforeBinaryOperators: false # prefer breaks before binary operators (when breaking)
+BreakBeforeTernaryOperators: false # keep `?:` style (prefer breaking after ? / : if needed)
+
+# -----------------------------------------------------------------------------
+# Indentation
+# -----------------------------------------------------------------------------
+IndentCaseBlocks: false # indent the statements inside `case` blocks
+IndentCaseLabels: true # indent the `case` labels themselves
+
+NamespaceIndentation: All # indent everything inside namespaces
+
+AccessModifierOffset: -4 # pull `public:` / `private:` back relative to class indent
+IndentAccessModifiers: false # don't indent access modifiers with the class body
+
+# -----------------------------------------------------------------------------
+# Spacing around access modifiers
+# -----------------------------------------------------------------------------
+EmptyLineAfterAccessModifier: Always # blank line after `public:` / `private:` / `protected:`
+EmptyLineBeforeAccessModifier: Always # blank line before them too
+
+# -----------------------------------------------------------------------------
+# Heuristics / penalties (nudge the formatter)
+# -----------------------------------------------------------------------------
+PenaltyBreakAssignment: 1000 # discourage breaking around assignments
+PenaltyBreakBeforeMemberAccess: 2000 # strongly discourage breaking before `.` / `->`
+
+# -----------------------------------------------------------------------------
+# Templates
+# -----------------------------------------------------------------------------
+BreakTemplateDeclarations: Yes # allow breaking template declarations across lines
+ApplyAlwaysOnePerLineToTemplateArguments: false # don't force template args to one-per-line globally
+BreakBeforeTemplateCloser: false # don't force break before `>` / `>>`

@@ -1,90 +1,52 @@
 {
-  "version": 6,
+  "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 20,
+    "minor": 21,
     "patch": 0
   },
   "configurePresets": [
     {
-      "name": "llvm-build-shared-libs",
+      "name": "base",
       "hidden": true,
-      "description": "Build shared libraries",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/../build/${presetName}",
       "cacheVariables": {
-        "BUILD_SHARED_LIBS": true
+        "LLVM_ENABLE_PROJECTS": "clang;clang-tools-extra",
+        "LLVM_TARGETS_TO_BUILD": "X86",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "LLVM_INCLUDE_TESTS": "OFF",
+        "LLVM_INCLUDE_BENCHMARKS": "OFF",
+        "LLVM_INCLUDE_EXAMPLES": "OFF"
       }
     },
     {
-      "name": "llvm-build-tests",
-      "hidden": true,
-      "description": "Build tests",
+      "name": "release",
+      "inherits": "base",
+      "displayName": "Release Build",
       "cacheVariables": {
-        "LLVM_BUILD_TESTS": true
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "llvm-enable-assertions",
-      "hidden": true,
-      "description": "Enable runtime assertions",
+      "name": "debug",
+      "inherits": "base",
+      "displayName": "Debug Build",
       "cacheVariables": {
-        "LLVM_ENABLE_ASSERTIONS": true
+        "CMAKE_BUILD_TYPE": "Debug"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "targets": [ "clang-format" ]
     },
     {
-      "name": "llvm-enable-projects-clang",
-      "hidden": true,
-      "description": "Enable projects clang",
-      "cacheVariables": {
-        "LLVM_ENABLE_PROJECTS": "clang"
-      }
-    },
-    {
-      "name": "llvm-enable-projects-clang-tools-extra",
-      "hidden": true,
-      "description": "Enable projects clang, clang-tools-extra",
-      "cacheVariables": {
-        "LLVM_ENABLE_PROJECTS": "clang;clang-tools-extra"
-      }
-    },
-    {
-      "name": "llvm-enable-lto",
-      "hidden": true,
-      "description": "Enable link time optimizations (LTO)",
-      "cacheVariables": {
-        "LLVM_ENABLE_LTO": true
-      }
-    },
-    {
-      "name": "llvm-export-compile-commands",
-      "hidden": true,
-      "description": "Generate a compile_commands.json database",
-      "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": true
-      }
-    },
-    {
-      "name": "llvm-no-build-testing",
-      "hidden": true,
-      "description": "Turn off building of tests",
-      "cacheVariables": {
-        "BUILD_TESTING": false
-      }
-    },
-    {
-      "name": "llvm-target-x86",
-      "hidden": true,
-      "description": "Only target x86 back end",
-      "cacheVariables": {
-        "LLVM_TARGETS_TO_BUILD": "X86"
-      }
-    },
-    {
-      "name": "llvm-use-sanitizer-asan",
-      "hidden": true,
-      "description": "Build with ASAN",
-      "cacheVariables": {
-        "LLVM_USE_SANITIZER": "Address"
-      }
+      "name": "debug",
+      "configurePreset": "debug",
+      "targets": [ "clang-format" ]
     }
   ]
 }
