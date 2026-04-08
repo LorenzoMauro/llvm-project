@@ -3,6 +3,7 @@ import subprocess
 import os
 import sys
 import pathlib
+import platform
 
 # Get absolute paths based on the script location
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -35,4 +36,58 @@ try:
     pathlib.Path(output_file).touch()  # Update the last modified time
 except subprocess.CalledProcessError as e:
     print("Error running clang-format:", e)
+    sys.exit(1)
+
+
+systemName = platform.system()
+
+try:
+    if systemName == "Windows":
+        dumpbinPath = shutil.which("dumpbin")
+        if dumpbinPath is None:
+            raise FileNotFoundError("dumpbin not found in PATH")
+
+        dumpbinOutput = subprocess.check_output(
+            [dumpbinPath, "/DEPENDENTS", clang_format],
+            text=True,
+        )
+        print("dumpbin output:")
+        print(dumpbinOutput)
+
+    elif systemName == "Linux":
+        lddPath = shutil.which("ldd")
+        if lddPath is None:
+            raise FileNotFoundError("ldd not found in PATH")
+
+        lddOutput = subprocess.check_output(
+            [lddPath, clang_format],
+            text=True,
+        )
+        print("ldd output:")
+        print(lddOutput)
+
+    elif systemName == "Darwin":
+        otoolPath = shutil.which("otool")
+        if otoolPath is None:
+            raise FileNotFoundError("otool not found in PATH")
+
+        otoolOutput = subprocess.check_output(
+            [otoolPath, "-L", clang_format],
+            text=True,
+        )
+        print("otool output:")
+        print(otoolOutput)
+
+    else:
+        print(f"Unsupported platform: {systemName}")
+        sys.exit(1)
+
+except subprocess.CalledProcessError as e:
+    print("Error running dependency check:")
+    print(e)
+    sys.exit(1)
+
+except FileNotFoundError as e:
+    print("Dependency inspection tool not found:")
+    print(e)
     sys.exit(1)
