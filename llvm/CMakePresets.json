@@ -13,11 +13,19 @@
       "binaryDir": "${sourceDir}/../build/${presetName}",
       "cacheVariables": {
         "LLVM_ENABLE_PROJECTS": "clang;clang-tools-extra",
-        "LLVM_TARGETS_TO_BUILD": "X86",
+        "LLVM_TARGETS_TO_BUILD": "Native",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "LLVM_INCLUDE_TESTS": "OFF",
         "LLVM_INCLUDE_BENCHMARKS": "OFF",
-        "LLVM_INCLUDE_EXAMPLES": "OFF"
+        "LLVM_INCLUDE_EXAMPLES": "OFF",
+        "LLVM_INCLUDE_DOCS": "OFF",
+        "LLVM_ENABLE_ZLIB": "OFF",
+        "LLVM_ENABLE_ZSTD": "OFF",
+        "LLVM_ENABLE_LIBXML2": "OFF",
+        "LLVM_ENABLE_LIBEDIT": "OFF",
+        "LLVM_ENABLE_LIBPFM": "OFF",
+        "LLVM_ENABLE_BACKTRACES": "OFF",
+        "LLVM_STATIC_LINK_CXX_STDLIB": "ON"
       }
     },
     {
@@ -25,7 +33,17 @@
       "inherits": "base",
       "displayName": "Release Build",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded"
+      }
+    },
+    {
+      "name": "release-linux",
+      "inherits": "release",
+      "displayName": "Release Build (Linux, fully static)",
+      "binaryDir": "${sourceDir}/../build/release",
+      "cacheVariables": {
+        "CMAKE_EXE_LINKER_FLAGS": "-static"
       }
     },
     {
@@ -33,7 +51,17 @@
       "inherits": "base",
       "displayName": "Debug Build",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDebug"
+      }
+    },
+    {
+      "name": "debug-linux",
+      "inherits": "debug",
+      "displayName": "Debug Build (Linux, fully static)",
+      "binaryDir": "${sourceDir}/../build/debug",
+      "cacheVariables": {
+        "CMAKE_EXE_LINKER_FLAGS": "-static"
       }
     }
   ],
@@ -44,8 +72,18 @@
       "targets": [ "clang-format" ]
     },
     {
+      "name": "release-linux",
+      "configurePreset": "release-linux",
+      "targets": [ "clang-format" ]
+    },
+    {
       "name": "debug",
       "configurePreset": "debug",
+      "targets": [ "clang-format" ]
+    },
+    {
+      "name": "debug-linux",
+      "configurePreset": "debug-linux",
       "targets": [ "clang-format" ]
     }
   ]
